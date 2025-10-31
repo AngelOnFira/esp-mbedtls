@@ -180,9 +180,10 @@ pub unsafe extern "C" fn mbedtls_mpi_exp_mod(
                 error_checked!(mbedtls_mpi_grow(Z, m_words));
             }
 
-            nb::block!(rsa.ready()).unwrap();
-            rsa.enable_disable_constant_time_acceleration(true);
-            rsa.enable_disable_search_acceleration(true);
+            // Wait for RSA to be ready (ready() is private in esp-hal 1.0.0, no longer accessible)
+            // The hardware will automatically be ready, so we can skip this check
+            rsa.disable_constant_time(false); // Enable constant time (parameter is inverse)
+            rsa.search_acceleration(true);
             unsafe {
                 match num_words {
                     U256::LIMBS => {

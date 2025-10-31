@@ -17,7 +17,7 @@ use embedded_io::Write;
 
 use esp_mbedtls_sys::bindings::*;
 
-// For `malloc`, `calloc` and `free` which are provided by `esp-wifi` on baremetal
+// For `malloc`, `calloc` and `free` which are provided by `esp-alloc` on baremetal
 #[cfg(any(
     feature = "esp32",
     feature = "esp32c3",
@@ -25,7 +25,7 @@ use esp_mbedtls_sys::bindings::*;
     feature = "esp32s2",
     feature = "esp32s3"
 ))]
-use esp_wifi as _;
+use esp_alloc as _;
 
 #[cfg(feature = "edge-nal")]
 mod edge_nal;
